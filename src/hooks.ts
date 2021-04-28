@@ -1,5 +1,6 @@
 import * as db from '$lib/db';
 import type { GetContext, GetSession, Handle, Incoming } from '@sveltejs/kit';
+import { logRequest } from '$lib/middleware';
 import { parseToken, useApiAuth } from '$lib/middleware/auth';
 
 export interface Context {
@@ -35,7 +36,7 @@ export const getSession: GetSession<Context, Session> = async ({ context }) => {
 };
 
 export const handle: Handle<Context> = async ({ request, render }) => {
-	const middleware = [useApiAuth];
+	const middleware = [logRequest, useApiAuth];
 
 	for (const func of middleware) {
 		const resp = await func(request);
