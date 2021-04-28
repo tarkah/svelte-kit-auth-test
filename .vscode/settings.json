@@ -1,0 +1,11 @@
+{
+	"editor.formatOnSave": true,
+	"[svelte]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"sort-imports.languages": ["javascript", "typescript"],
+	"sort-imports.default-sort-style": "renke"
+}
