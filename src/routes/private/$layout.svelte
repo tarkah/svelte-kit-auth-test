@@ -12,6 +12,8 @@
 			return {};
 		}
 
+		session.authenticated = false;
+
 		return {
 			status: 303,
 			redirect: '/login'
