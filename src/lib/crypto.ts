@@ -40,7 +40,7 @@ export const decryptSecureToken = (token: string): Record<string, unknown> => {
 	return payload;
 };
 
-export const addSecureTokenCookie = (token: string): string => {
+export const createSecureTokenCookie = (token: string): string => {
 	return serialize('token', token, {
 		path: '/',
 		httpOnly: true,
