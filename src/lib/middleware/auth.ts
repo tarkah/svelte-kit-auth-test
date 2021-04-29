@@ -2,9 +2,12 @@ import * as cookie from 'cookie';
 import type { Context } from 'node:vm';
 import type { Incoming, Request } from '@sveltejs/kit';
 import type { ServerResponse } from '@sveltejs/kit/types/endpoint';
+import { Session } from '$lib/entity';
 import { decryptSecureToken } from '$lib/crypto';
 
 export interface TokenPayload {
+	sessionId: string;
+
 	user: {
 		id: string;
 	};
@@ -23,7 +26,11 @@ export const parseToken = async ({ headers }: Incoming): Promise<TokenPayload> =
 		const payload = decryptSecureToken(token);
 
 		if (isTokenPayload(payload)) {
-			return payload;
+			const activeSession = await Session.findOne(payload.sessionId);
+
+			if (activeSession) {
+				return payload;
+			}
 		}
 	}
 };

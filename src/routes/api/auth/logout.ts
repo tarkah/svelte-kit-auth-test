@@ -1,14 +1,9 @@
 import type { Context } from 'src/hooks';
 import type { RequestHandler } from '@sveltejs/kit';
-import { removeSecureTokenCookie } from '$lib/crypto';
+import { endSession } from '$lib/session';
 
-export const get: RequestHandler<Context> = async () => {
-	const cookie = removeSecureTokenCookie();
-
-	return {
-		headers: {
-			'set-cookie': cookie
-		},
-		body: {}
-	};
+export const get: RequestHandler<Context> = async (request) => {
+	if (request.context.sessionId) {
+		return endSession(request.context.sessionId);
+	}
 };

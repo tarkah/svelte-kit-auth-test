@@ -1,7 +1,8 @@
 import type { Context } from 'src/hooks';
 import type { RequestHandler } from '@sveltejs/kit';
 import { User } from '$lib/entity';
-import { checkPassword, createSecureToken, createSecureTokenCookie } from '$lib/crypto';
+import { checkPassword } from '$lib/crypto';
+import { startSession } from '$lib/session';
 
 interface Body {
 	username: string;
@@ -22,15 +23,7 @@ export const post: RequestHandler<Context, Body> = async (request) => {
 			const passIsValid = await checkPassword(body.password, user.passHash);
 
 			if (passIsValid) {
-				const token = createSecureToken({ user: { id: user.id } });
-				const cookie = createSecureTokenCookie(token);
-
-				return {
-					body: {},
-					headers: {
-						'set-cookie': cookie
-					}
-				};
+				return startSession(user);
 			}
 		}
 	}

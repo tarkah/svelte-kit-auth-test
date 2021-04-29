@@ -10,7 +10,11 @@
 		}
 
 		if (resp.status === 200) {
-			return {};
+			const body = await resp.json();
+
+			if (body?.verified === true) {
+				return {};
+			}
 		}
 
 		session.authenticated = false;

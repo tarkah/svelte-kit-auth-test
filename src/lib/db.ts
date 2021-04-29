@@ -1,20 +1,26 @@
+import { Session, User } from '$lib/entity';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { User } from '$lib/entity';
 import { createConnection, getConnectionManager } from 'typeorm';
 import { dev } from '$app/env';
 
-export const setup = async (): Promise<void> => {
-	const manager = getConnectionManager();
+let initialized = false;
 
-	if (!manager.has('default')) {
-		await createConnection({
-			type: 'sqlite',
-			database: 'testdb.sql',
-			synchronize: dev,
-			logging: false, //dev,
-			dropSchema: dev,
-			entities: [User],
-			namingStrategy: new SnakeNamingStrategy()
-		});
+export const setup = async (): Promise<void> => {
+	if (!initialized) {
+		const manager = getConnectionManager();
+
+		if (!manager.has('default')) {
+			await createConnection({
+				type: 'sqlite',
+				database: 'testdb.sql',
+				synchronize: dev,
+				logging: false, //dev,
+				dropSchema: dev,
+				entities: [Session, User],
+				namingStrategy: new SnakeNamingStrategy()
+			});
+
+			initialized = true;
+		}
 	}
 };

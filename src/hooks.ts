@@ -4,6 +4,8 @@ import { logRequest } from '$lib/middleware';
 import { parseToken, useApiAuth } from '$lib/middleware/auth';
 
 export interface Context {
+	sessionId?: string;
+
 	user?: {
 		id: string;
 	};
@@ -16,17 +18,16 @@ export interface Session {
 export const getContext: GetContext = async (incoming: Incoming) => {
 	await db.setup();
 
-	let user;
+	const context: Context = {};
 
 	const tokenPayload = await parseToken(incoming);
 
 	if (tokenPayload) {
-		user = tokenPayload.user;
+		context.sessionId = tokenPayload.sessionId;
+		context.user = tokenPayload.user;
 	}
 
-	return {
-		user: user
-	};
+	return context;
 };
 
 export const getSession: GetSession<Context, Session> = async ({ context }) => {
