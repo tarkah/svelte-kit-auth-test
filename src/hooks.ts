@@ -41,14 +41,10 @@ export const handle: Handle<Context> = async ({ request, render }) => {
 	for (const func of middleware) {
 		const resp = await func(request);
 
-		if (isNotUndefined(resp)) {
+		if (resp) {
 			return resp;
 		}
 	}
 
 	return render(request);
-};
-
-const isNotUndefined = <T>(input: undefined | T): input is T => {
-	return typeof input !== 'undefined';
 };
