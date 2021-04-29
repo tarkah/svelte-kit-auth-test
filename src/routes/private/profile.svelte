@@ -1,7 +1,7 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
 
-	export const load: Load = async ({ page, fetch, session, context }) => {
+	export const load: Load = async ({ fetch }) => {
 		const resp = await fetch('/api/profile');
 
 		const profile = await resp.json();
