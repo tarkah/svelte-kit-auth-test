@@ -15,7 +15,7 @@ export interface Session {
 	authenticated: boolean;
 }
 
-export const getContext: GetContext = async (incoming: Incoming) => {
+export const getContext: GetContext<Promise<Context>> = async (incoming: Incoming) => {
 	await db.setup();
 
 	const context: Context = {};
