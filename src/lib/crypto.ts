@@ -1,6 +1,6 @@
-import * as jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 import type { TokenPayload } from '$lib/middleware/auth';
 import { serialize } from 'cookie';
 
